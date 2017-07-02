@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Socmed Aggregator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <!-- Latest compiled and minified CSS -->
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.com/libraries/bulma">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  </head>
+  <body>
+
+
+
+  <div class="grid">
+
+    <div class="items-one">
+      <div class="items-color">
+        <fieldset class="items-one">
+          <h2>Tweet</h2>
+          <textarea class="twitt" rows="4" cols="40"></textarea><br>
+          <button type="submit" class="submit-btn">POST</button>
+        </fieldset>
+      </div>
+
+      <div class="items-color">
+        <fieldset class="items-one">
+          <h2>Recent Tweet</h2>
+          <button type="submit" class="recent-btn">FIND YOUR RECENT HERE!</button>
+        </fieldset>
+      </div>
+
+      <div class="items-color">
+        <fieldset class="items-one">
+          <h2>Search Tweet</h2>
+          <input class="search" type="text" name="" value="">
+          <button type="submit" class="search-btn">FIND TWEET HERE!</button>
+        </fieldset>
+      </div>
+
+    </div>
+
+    <div class="items">
+      <div class="items-color">
+        <fieldset>
+          <h1>TIMELINE</h1>
+
+          <table border="1">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Photo</th>
+                <th>User</th>
+                <th>Tweet</th>
+              </tr>
+            </thead>
+            <tbody id="timeline">
+
+            </tbody>
+          </table>
+        </fieldset>
+      </div>
+    </div>
+    <!-- <div class="items">
+      <div class="items-color">
+        <fieldset>
+          <h1>TIMELINE</h1>
+          <div id="media">
+            <div class="media-left media-middle">
+              <a href="#" id="display_picture">
+
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 id="name"></h4>
+              <p></p>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div> -->
+
+  </div>
+
+
+  <script type="text/javascript">
+  $( document ).ready(function() {
+    $('.submit-btn').click(function() {
+      var text =  $('.twitt').val()
+        axios.post('http://localhost:3000/api/twitt', {
+            twitt : text
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    })
+  });
+
+  $('.recent-btn').click(function() {
+    axios.get('http://localhost:3000/api/twitt')
+    .then(function (response) {
+      console.log(JSON.stringify(response));
+      $('#timeline').empty();
+      for (var i = 0; i < response.data.length; i++) {
+        $('#timeline').append(`<tr><td>${i+1}</td><td><img src='${response.data[i].user.profile_image_url}'></td><td>${response.data[i].user.name}</td><td>${response.data[i].text}</td></tr>`);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  })
+
+  $('.search-btn').click(function() {
+    var text =  $('.search').val()
+    axios.get('http://localhost:3000/api/twitt/'+text)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      console.log('erwin : ',response.data.statuses);
+      console.log('panjangnya : '+response.data.statuses.length);
+      $('#timeline').empty();
+      for (var i = 0; i < response.data.statuses.length; i++) {
+        console.log('erwin : ',response.data.statuses[i].user.name);
+        $('#timeline').append(`<tr><td>${i+1}</td><td><img src='${response.data.statuses[i].user.profile_image_url}'></td><td>${response.data.statuses[i].user.name}</td><td>${response.data.statuses[i].text}</td></tr>`);
+        // $('#display_picture').append(`<td><img src='${response.data.statuses[i].user.profile_image_url}'></td>`);
+        // $('#name').append(`<td>${response.data.statuses[i].user.name}</td>`);
+        // $('p').append(`<td>${response.data.statuses[i].text}</td></tr>`);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  })
+  </script>
+  </body>
+
+</html>
