@@ -1,43 +1,65 @@
 <!DOCTYPE html>
-<html>
-     <head>
-          <meta charset="utf-8">
-          <title></title>
-          <script
-            src="https://code.jquery.com/jquery-3.2.1.js"
-            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-            crossorigin="anonymous"></script>
-     </head>
-     <body>
+<html lang="en">
+<head>
+  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>Tugas Socmed Aggregator</title>
+</head>
+<body>
+  <div>
+    <h3>Recent Twitt</h3>
+    <label for="">Username</label>
+    <input id="username" type="text" name="Username"><br>
+    <label for="">Count</label>
+    <input id="count" type="number" name="Count"><br>
+    <button id="recent-twatt" type="submit" name="button">Recent</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID Tweet</th>
+          <th>Text</th>
+          <th>Retweet count</th>
+          <th>Created at</th>
+        </tr>
+      </thead>
+      <tbody id="tableRecent"></tbody>
+    </table>
+  </div>
 
-          <div id="app">
-               <h1 id="txtName">This isi show you name</h1>
-               <input id="name-input" type="text" name="" value="" placeholder="inut your name">
-               <button id="btnSubmitName" type="button" name="button" onclick="changeName()">Submit your name</button>
+  <script>
+  $(document).ready(function(){
+    $("#recent-twatt").click(function(){
+      let username = $('#username').val()
+      let count = $('#count').val()
+      axios.post(`http://localhost:3000/api/recent`, {
+        count: count,
+        user : username
+      })
+      .then(function (response) {
+        let tempRecent = response
+        var tableRecent = $('#tableRecent')
+        tableRecent.html('')
+        tempRecent.data.forEach(dataTweet => {
+          tableRecent.append(`\
+            <tr>\
+              <td class="textRecent">${dataTweet.id_str}</td>\
+              <td class="textRecent">${dataTweet.text}</td>\
+              <td class="retweetCountRecent">${dataTweet.retweet_count}</td>\
+              <td class="createdAtRecent">${dataTweet.created_at}</td>\
+            </tr>\
+          `);
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    });
 
-          </div>
 
-
-          <script type="text/javascript">
-
-               function changeName() {
-                    var name = $('#name-input').val()
-                    $('#txtName').html(name)
-                    // atau
-                    // $('#txtName').html('<h1>${name}</h1>')
-               }
-
-
-
-
-                    })
-               </script>
-
-          </script>
-     </body>
-
-
-
+    
+  });
+  </script>
+</body>
 </html>
 
 <!-- 1. Mongoose
