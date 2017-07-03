@@ -30,7 +30,7 @@ router.get('/timelines', function(req, res) {
 
 router.get('/search', function(req, res) {
   const keyword = req.query.keyword ? req.query.keyword : '';
-  const url =  `https://api.twitter.com/1.1/search/tweets.json?q=${keyword}&count=1`;
+  const url =  `https://api.twitter.com/1.1/search/tweets.json?q=${keyword}&count=5`;
   req.app.locals.oauth.get(
     url,
     process.env.TOKEN,
