@@ -16,7 +16,7 @@ router.get('/test', (req, res) => {
 });
 
 router.get('/timelines', function(req, res) {
-  const url =  'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=Yusuf_hacktiv8&count=2';
+  const url =  'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=Yusuf_hacktiv8';
   req.app.locals.oauth.get(
     url,
     process.env.TOKEN,

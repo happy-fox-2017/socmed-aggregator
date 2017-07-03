@@ -15,6 +15,11 @@
     header.appendTo(tweetSearchContainer);
   };
 
+  const initSpinner = function(element) {
+    const target = document.getElementById(element);
+    const spinner = new Spinner({ top: '120%' }).spin(target);
+  }
+
   const getTimeLine = function getTimeLine() {
     $.ajax({
       url: '/tweets',
@@ -47,9 +52,18 @@
     });
   };
 
-  const initSpinner = function(element) {
-    const target = document.getElementById(element);
-    const spinner = new Spinner({ top: '120%' }).spin(target);
+  const postTweet = function postTweet(tweet) {
+    $.ajax({
+      url: '/tweets/addtweet',
+      type: 'POST',
+      data: { tweet },
+      success(data) {
+        initTweetContainer();
+        initSpinner('tweetContainer');
+        getTimeLine();
+        $('#myTweet').val('');
+      },
+    });
   }
 
   initTweetContainer();
@@ -67,6 +81,10 @@
     initTweetSearchContainer();
     initSpinner('tweetSearchContainer');
     tweetSearch($('#searchText').val());
+  });
+
+  $('#postTweetButton').click(function(e) {
+    postTweet($('#myTweet').val());
   });
 
 })(jQuery)
