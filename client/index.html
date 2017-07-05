@@ -3,28 +3,64 @@
 <head>
   <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
   <title>Tugas Socmed Aggregator</title>
 </head>
 <body>
-  <div>
-    <h3>Recent Twitt</h3>
-    <label for="">Username</label>
-    <input id="username" type="text" name="Username"><br>
-    <label for="">Count</label>
-    <input id="count" type="number" name="Count"><br>
-    <button id="recent-twatt" type="submit" name="button">Recent</button>
-    <table>
-      <thead>
-        <tr>
-          <th>ID Tweet</th>
-          <th>Text</th>
-          <th>Retweet count</th>
-          <th>Created at</th>
-        </tr>
-      </thead>
-      <tbody id="tableRecent"></tbody>
-    </table>
-  </div>
+
+<div class="container">
+
+
+       <div>
+              <h3>Recent Tweet @AmboDalle001</h3>
+              <!-- <label for="">Username</label> -->
+              <!-- <input id="username" type="text" name="Username"><br> -->
+              <!-- <label for="">Count</label> -->
+              <!-- <input id="count" type="number" name="Count"><br> -->
+              <button class="btn btn-success" id="recent-twatt" type="submit" name="button">Recent</button>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID Tweet</th>
+                    <th>Text</th>
+                    <th>Retweet count</th>
+                    <th>Created at</th>
+                  </tr>
+                </thead>
+                <tbody id="tableRecent"></tbody>
+              </table>
+       </div>
+       <br>
+       <br>
+
+       <div >
+            <!-- <form class="form-inline"> -->
+                 <div class="form-group">
+                      <label for="" >Search Twatt</label>
+                     <input id="inputSearch" type="text" name="Search" placeholder="Search Tweet"><br>
+                </div>
+                <div class="form-group">
+                     <label for="">Count</label>
+                     <input id="searchCount" type="number" name="Count" placeholder="Count"><br>
+               </div>
+                <button class="btn btn-success" id="search-twatt" type="submit" name="button">Search</button>
+           <!-- </form> -->
+           <table class="table">
+             <thead>
+               <tr>
+                 <th>User ID</th>
+                 <th>Text</th>
+                 <th>Retweet count</th>
+                 <th>Language</th>
+                 <th>Created at</th>
+               </tr>
+             </thead>
+             <tbody id="tableSearch"></tbody>
+           </table>
+       </div>
+
+</div>
 
   <script>
   $(document).ready(function(){
@@ -56,7 +92,35 @@
     });
 
 
-    
+    $("#search-twatt").click(function(){
+         let dataSearch = $('#inputSearch').val()
+         let searchCount = $("#searchCount").val()
+         axios.post(`http://localhost:3000/api/search`, {
+              search : dataSearch,
+              count : searchCount
+         })
+         .then(function(response) {
+              console.log(response);
+              let dataSearch = response.data
+              let tbodySearch = $('#tableSearch')
+              tbodySearch.html('')
+              dataSearch.statuses.forEach(searchTweet =>{
+                   tbodySearch.append(`
+                        <tr>\
+                              <td class="userSearch">${searchTweet.user.id_str} </td>
+                              <td class="textSearch">${searchTweet.text} </td>
+                              <td class="retweetSearch">${searchTweet.retweet_count} </td>
+                              <td class="languageSearch">${searchTweet.lang}</td>\
+                              <td class="createdAtSearch">${searchTweet.created_at}</td>\
+                        </tr>\
+                        `)
+              })
+         })
+         .catch((err) => {
+              console.log(err);
+         })
+    })
+
   });
   </script>
 </body>

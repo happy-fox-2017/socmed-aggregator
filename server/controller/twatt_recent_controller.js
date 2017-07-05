@@ -14,7 +14,7 @@ var express = require('express');
          );
 
          oauth.get(
-         'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=AmboDalle001&count=3',
+         'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=AmboDalle001&count=5',
          process.env.USER_ACCEES_TOKEN, //test user token //Access Token
          process.env.USER_SECRET_TOKEN, //test user secret //Access Token Secret
          function (err, data){
