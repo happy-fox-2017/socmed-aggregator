@@ -1,0 +1,25 @@
+{
+  "name": "twatt-recent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ambo-dalle/twatt-recent.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ambo-dalle/twatt-recent/issues"
+  },
+  "homepage": "https://github.com/ambo-dalle/twatt-recent#readme",
+  "dependencies": {
+    "cors": "^2.8.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3"
+  }
+}
