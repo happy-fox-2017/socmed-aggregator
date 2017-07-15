@@ -75,14 +75,20 @@
       });
       
     $('.recent-btn').click(() => {
+      console.log('==========================');
       axios.get('http://localhost:3000/api/timeline')
       .then(res => {
-        // console.log('====================================='+res);
         console.log(JSON.stringify(res));
-        // $('#timeline').empty();
-      // for (var i = 0; i < res.data.length; i++) {
-      //   $('#timeline').append(`<tr><td>${i+1}</td><td><img src='${res.data[i].user.profile_image_url}'></td><td>${res.data[i].user.name}</td><td>${res.data[i].text}</td></tr>`);
-      // }
+        $('#timeline').empty();
+        for (var i = 0; i < res.data.length; i++) {
+          $('#timeline').append(
+            `<tr>
+              <td>${i+1}</td>
+              <td><img src='${res.data[i].user.profile_image_url}'></td>
+              <td>${res.data[i].user.name}</td>
+              <td>${res.data[i].text}</td>
+            </tr>`);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -93,10 +99,20 @@
       var searchTweet = $('.search').val()
       axios.get(`http://localhost:3000/api/search/${searchTweet}`)
       .then(res =>{
-        console.log(JSON.stringify(res));
+        console.log(JSON.stringify(res.data));
+        $('#timeline').empty();
+        for (var i = 0; i < res.data.statuses.length; i++) {
+          $('#timeline').append(
+            `<tr>
+              <td>${i+1}</td>
+              <td><img src='${res.data.statuses[i].user.profile_image_url}'></td>
+              <td>${res.data.statuses[i].user.name}</td>
+              <td>${res.data.statuses[i].text}</td>
+            </tr>`);
+        }
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.message);
       })
     })
       

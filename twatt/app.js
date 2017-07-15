@@ -14,6 +14,7 @@ const express = require('express'),
 
       //Express Instance
       app = express();
+      app.use(cors());
 
 //load environment variables with dotenv
 require('dotenv').config()

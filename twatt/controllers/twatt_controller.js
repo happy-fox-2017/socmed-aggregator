@@ -19,15 +19,9 @@ var search =(req,res)=>{
     process.env.USER_TOKEN, //test user token 
     process.env.USER_SECRET, //test user secret             
     function (e, data){
-      let result = [];
-      var datas = JSON.parse(data);
-      if (e) console.error(e);
-      datas.statuses.forEach(element=>{
-        result.push(element.user.name);
-        result.push(element.text);
-      })        
-      console.log(result);
-      res.send(result)     
+      if (e) console.log(e);
+      console.log(JSON.parse(data));
+      res.send(JSON.parse(data));
     });
 }
 
@@ -38,10 +32,9 @@ var timeline = (req,res) =>{
     process.env.USER_TOKEN, //test user token 
     process.env.USER_SECRET, //test user secret             
     function (e, data){ 
-      var datas = JSON.parse(data)
       if (e) console.error(e); 
       // console.log(data);       
-      res.send(datas);
+      res.send(JSON.parse(data));
     });
 }
 
